@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require_relative '../../lib/json_log_formatter.rb'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -52,7 +53,18 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
+  config.colorize_logging = true
 
+  output = STDERR if ENV["RAILS_LOG_TO_STDERR"].present?
+  output = STDOUT if ENV["RAILS_LOG_TO_STDOUT"].present?
+  config.log_formatter = LIB::JSONLogFormatter.new
+
+  unless output.nil?
+    logger        = ActiveSupport::Logger.new(output)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+  # config.logger.formatter = config.log_formatter
+  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "template")
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

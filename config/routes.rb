@@ -1,6 +1,6 @@
+require_relative '../app/api/base.rb'
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  get '/swagger', to: 'swagger#index'
+  mount API::Base => API::Base::PREFIX
 end
