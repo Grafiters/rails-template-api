@@ -19,6 +19,15 @@ module API
                         optional :password,
                                 type: String,
                                 desc: { type: 'integer' }
+                        optional :captcha,
+                                type: Hash do
+                                    requires :geetest_challenge,
+                                            type: String,
+                                            desc: 'Geetest Challenge'
+                                    requires :geetest_seccode,
+                                            type: String,
+                                            desc: 'Geetest Seccode'
+                        end
                     end
                     post do
                         present params

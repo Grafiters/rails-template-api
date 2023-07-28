@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.5"
+ruby "3.0.6"
 
 gem "rails", "~> 7.0.6"
 gem "pg", "~> 1.1"
@@ -31,6 +31,11 @@ gem 'rack-cors'
 gem 'rack-attack'
 gem 'dotenv-rails'
 gem 'colorize'
+gem 'json-schema'
+gem 'signet'
+gem 'google-api-client'
+gem 'googleauth'
+gem 'rotp'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]

@@ -24,9 +24,6 @@ module Nusablockchain
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.time_zone = ENV.fetch('TIMEZONE', 'UTC')
-    config.relative_url_root = ENV.fetch('URL_ROOT_PATH', '/')
-    config.middleware.delete ActionDispatch::Cookies
-    config.middleware.delete ActionDispatch::Session::CookieStore
     config.action_controller.allow_forgery_protection = false
     
     config.api_only = true

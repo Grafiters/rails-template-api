@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.4)
+      public_suffix (>= 2.0.2, < 6.0)
     api-pagination (5.0.0)
     ast (2.4.2)
     bcrypt (3.1.19)
@@ -82,6 +84,7 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    declarative (0.0.20)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -103,8 +106,40 @@ GEM
     email_validator (2.2.4)
       activemodel
     erubi (1.12.0)
+    faraday (2.7.10)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
+    gems (1.2.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    google-api-client (0.53.0)
+      google-apis-core (~> 0.1)
+      google-apis-generator (~> 0.1)
+    google-apis-core (0.11.1)
+      addressable (~> 2.5, >= 2.5.1)
+      googleauth (>= 0.16.2, < 2.a)
+      httpclient (>= 2.8.1, < 3.a)
+      mini_mime (~> 1.0)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.a)
+      rexml
+      webrick
+    google-apis-discovery_v1 (0.14.0)
+      google-apis-core (>= 0.11.0, < 2.a)
+    google-apis-generator (0.12.0)
+      activesupport (>= 5.0)
+      gems (~> 1.2)
+      google-apis-core (>= 0.11.0, < 2.a)
+      google-apis-discovery_v1 (~> 0.5)
+      thor (>= 0.20, < 2.a)
+    googleauth (1.7.0)
+      faraday (>= 0.17.3, < 3.a)
+      jwt (>= 1.4, < 3.0)
+      memoist (~> 0.16)
+      multi_json (~> 1.11)
+      os (>= 0.9, < 2.0)
+      signet (>= 0.16, < 2.a)
     grape (1.7.1)
       activesupport
       builder
@@ -126,12 +161,15 @@ GEM
     grape_on_rails_routes (0.3.2)
       rails (>= 3.1.1)
     hiredis (0.6.3)
+    httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
     irb (1.7.4)
       reline (>= 0.3.6)
     json (2.6.3)
+    json-schema (4.0.0)
+      addressable (>= 2.8)
     jwt (2.7.1)
     jwt-multisig (1.0.6)
       activesupport (>= 4.0)
@@ -179,14 +217,19 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.3-x64-mingw32)
+      racc (~> 1.4)
     nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
+    os (1.1.4)
     pagy (6.0.4)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
     pg (1.5.3)
+    pg (1.5.3-x64-mingw32)
+    public_suffix (5.0.3)
     puma (5.6.6)
       nio4r (~> 2.0)
     racc (1.7.1)
@@ -234,7 +277,13 @@ GEM
     regexp_parser (2.8.1)
     reline (0.3.6)
       io-console (~> 0.5)
+    representable (3.2.0)
+      declarative (< 0.1.0)
+      trailblazer-option (>= 0.1.1, < 0.2.0)
+      uber (< 0.2.0)
+    retriable (3.1.2)
     rexml (3.2.5)
+    rotp (6.2.2)
     rubocop (1.55.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -250,12 +299,22 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    signet (0.17.0)
+      addressable (~> 2.8)
+      faraday (>= 0.17.5, < 3.a)
+      jwt (>= 1.5, < 3.0)
+      multi_json (~> 1.10)
     thor (1.2.2)
     timeout (0.4.0)
+    trailblazer-option (0.1.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2023.3)
+      tzinfo (>= 1.0.0)
+    uber (0.1.0)
     unaccent (0.4.0)
     unicode-display_width (2.4.2)
+    webrick (1.8.1)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -263,6 +322,7 @@ GEM
     zeitwerk (2.6.9)
 
 PLATFORMS
+  x64-mingw32
   x86_64-linux
 
 DEPENDENCIES
@@ -275,6 +335,8 @@ DEPENDENCIES
   debug
   dotenv-rails
   email_validator
+  google-api-client
+  googleauth
   grape
   grape-entity
   grape-swagger
@@ -282,6 +344,7 @@ DEPENDENCIES
   grape_logging
   grape_on_rails_routes (~> 0.3.2)
   hiredis
+  json-schema
   jwt
   jwt-multisig
   kaminari
@@ -295,12 +358,14 @@ DEPENDENCIES
   rails (~> 7.0.6)
   recaptcha
   redis (~> 4.0)
+  rotp
   rubocop
+  signet
   tzinfo-data
   will_paginate
 
 RUBY VERSION
-   ruby 3.0.5p211
+   ruby 3.0.6p216
 
 BUNDLED WITH
    2.2.33
