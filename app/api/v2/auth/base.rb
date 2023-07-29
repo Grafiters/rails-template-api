@@ -1,11 +1,14 @@
+require_relative 'utils.rb'
 require_relative 'register.rb'
 require_relative 'login.rb'
 module API
     module V2
         module Auth
             class Base < Grape::API
-                mount Auth::Register
+                helpers API::V2::Auth::Utils
+
                 mount Auth::Login
+                mount Auth::Register
             end
         end
     end
