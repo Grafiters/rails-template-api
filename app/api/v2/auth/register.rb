@@ -3,11 +3,6 @@ module API
         module Auth
             class Register < Grape::API
                 namespace :register do
-                    get do
-                        user = User.all
-                        present user
-                    end
-
                     desc 'Register users'
                     params do
                         requires :email,

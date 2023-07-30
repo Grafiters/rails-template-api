@@ -2,6 +2,7 @@ require_relative '../base.rb'
 require_relative 'template/base.rb'
 require_relative 'auth/base.rb'
 require_relative 'users/base.rb'
+require_relative 'public/base.rb'
 require_relative 'exceptions_handlers.rb'
 
 module API
@@ -26,6 +27,7 @@ module API
             mount V2::Template::Base => :template
             mount V2::Auth::Base => :auth
             mount V2::Users::Base => '/'
+            mount V2::Public::Base => :public
 
             add_swagger_documentation base_path: File.join('/api', 'v2'),
                                 consumes: ['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'],

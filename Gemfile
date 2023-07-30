@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.6"
+ruby "3.0.5"
 
 gem "rails", "~> 7.0.6"
 gem "pg", "~> 1.1"
@@ -38,6 +38,7 @@ gem 'googleauth'
 gem 'rotp'
 gem 'redis-rails'
 gem 'connection_pool'
+gem 'recaptcha'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]

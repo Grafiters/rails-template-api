@@ -25,7 +25,7 @@ module Nusablockchain
     # Skip views, helpers and assets when generating a new resource.
     config.time_zone = ENV.fetch('TIMEZONE', 'UTC')
     config.action_controller.allow_forgery_protection = false
-    
+    config.cache_store = :redis_cache_store, { url: 'redis://localhost:6379/0' }
     config.api_only = true
   end
 end
