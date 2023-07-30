@@ -55,10 +55,13 @@ module API
                             user.update(role: 'admin')
                         end
 
+                        csrf_token = open_session(user)
+
                         response = {
                             status: true,
                             message: "Login berhasil.",
-                            token: JwtService.new({users: user.as_fot_jwt_token}).encode_token
+                            token: JwtService.new({users: user.as_fot_jwt_token}).encode_token,
+                            csrf_token: csrf_token
                         }
 
                         present response

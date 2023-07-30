@@ -6,16 +6,32 @@ module Middleware
 
             raise 'Header Authorization missing' \
                 unless authorization_present?
+                    
+            raise "Header X-CSRF-token missing" \
+                unless csrf_token?
 
             token = request.headers['Authorization'].split(' ').last
-            decode_token = JwtService.new(token).decode_token
-            env[:current_payload] = decode_token
+            @decode_token = JwtService.new(token).decode_token
+
+            Rails.logger.warn session_data
+            raise "Invalid CSRF Token" \
+                    unless session_data || session_data['csrf_token'] == request.headers['X-Csrf-Token']
+
+            env[:current_payload] = @decode_token
         end
 
         private
 
+        def session_data
+            REDIS_POOL.with { |conn| conn.get("#{@decode_token['email']}_session_data") }
+        end
+
         def authorization_present?
             request.headers.key?('Authorization')
+        end
+
+        def csrf_token?
+            request.headers['X-Csrf-Token'].present?
         end
 
         def request

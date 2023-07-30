@@ -4,7 +4,6 @@ module API
             class User < Grape::API
                 namespace :users do
                     get :profile do
-                        Rails.logger.warn request.session
                         present current_user
                     end
                 end
