@@ -6,7 +6,6 @@ class User < ApplicationRecord
     class << self
         def from_auth_google(payload)
             user = User.find_or_create_by({email: payload.email, google_id: payload.id})
-            Rails.logger.warn user.as_json
             user.save!
             user
         end

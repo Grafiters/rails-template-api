@@ -13,9 +13,8 @@ module Middleware
             token = request.headers['Authorization'].split(' ').last
             @decode_token = JwtService.new(token).decode_token
 
-            Rails.logger.warn session_data
             raise "Invalid CSRF Token" \
-                    unless session_data || session_data['csrf_token'] == request.headers['X-Csrf-Token']
+                    unless session_data && csrf_token_data == request.headers['X-Csrf-Token']
 
             env[:current_payload] = @decode_token
         end
@@ -36,6 +35,19 @@ module Middleware
 
         def request
             @request ||= Grape::Request.new(env)
+        end
+
+        def csrf_token_data
+            csrf_token = nil
+            parsed_data = JSON.parse(session_data)
+            parsed_data.each do |subarray|
+                if subarray[0] == "csrf_token"
+                  csrf_token = subarray[1]
+                  break
+                end
+            end
+            
+            csrf_token
         end
     end
 end

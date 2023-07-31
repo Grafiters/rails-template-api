@@ -1,4 +1,4 @@
-require_relative "#{Rails.root}/lib/redis_session.rb"
+# require_relative "#{Rails.root}/lib/redis_session.rb"
 module API
     module V2
         module Auth
@@ -25,6 +25,8 @@ module API
     
                 def remote_ip
                     request.env['REMOTE_ADDR']
+                end
+
                 def verify_captcha!(response:, error_statuses: [400, 422])
                     geetest(response: response)
                 end

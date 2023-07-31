@@ -1,4 +1,3 @@
-require_relative '../../../lib/redis_session.rb'
 module API
     module V2
         module Utils

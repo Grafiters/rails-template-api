@@ -1,6 +1,6 @@
-require_relative 'utils.rb'
 require_relative 'register.rb'
 require_relative 'login.rb'
+require_relative 'google.rb'
 require_relative 'utils.rb'
 
 module API
@@ -9,6 +9,7 @@ module API
             class Base < Grape::API
                 helpers API::V2::Auth::Utils
 
+                mount Auth::Google
                 mount Auth::Login
                 mount Auth::Register
             end
