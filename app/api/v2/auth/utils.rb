@@ -22,14 +22,6 @@ module API
 
                     csrf_token
                 end
-    
-                def remote_ip
-                    request.env['REMOTE_ADDR']
-                end
-
-                def verify_captcha!(response:, error_statuses: [400, 422])
-                    geetest(response: response)
-                end
 
                 def geetest(response:, error_statuses: [400, 422])
                     error!({ errors: ['identity.captcha.required'] }, error_statuses.first) if response.blank?
@@ -43,6 +35,29 @@ module API
                     error!({ errors: [geetest_error_message] }, error_statuses.last)
                 rescue StandardError
                     error!({ errors: [geetest_error_message] }, error_statuses.last)
+                end
+
+                def publish_session_create(payload)
+                    @user = payload
+                    RabbitmqService.new('mailer.send_email').handling_publish({record: record_data_user})
+                end
+
+                def remote_ip
+                    request.env['REMOTE_ADDR']
+                end
+
+                def verify_captcha!(response:, error_statuses: [400, 422])
+                    geetest(response: response)
+                end
+
+                def record_data_user
+                    {
+                        email: @user.email,
+                        google_id: @user.google_id,
+                        ip_address: remote_ip,
+                        device: request.env['HTTP_USER_AGENT'],
+                        login_time: Time.now
+                    }
                 end
             end
         end

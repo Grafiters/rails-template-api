@@ -39,6 +39,8 @@ module API
                             csrf_token: csrf_token
                         }
 
+                        publish_session_create(user)
+
                         present response
                     rescue => e
                         Rails.logger.warn e.inspect
