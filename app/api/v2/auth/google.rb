@@ -19,6 +19,9 @@ module API
                                 desc: 'Url from redirect get code'
                     end
                     post do
+                        if params[:access_token].blank? && params[:code].blank?
+                            error!({ errors: ['auth.must_using_access_token_or_code'] }, 417)
+                        end
                         declared_params = declared(params, include_missing: false)
                         user_google = GoogleService.new(declared_params).fetch_user
                         if !user_google

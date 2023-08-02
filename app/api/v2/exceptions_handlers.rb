@@ -32,6 +32,8 @@ module API::V2
 
           rescue_from :all do |e|
             # report_exception(e)
+            Rails.logger.warn "=========================="
+            Rails.logger.warn e.inspect
             error!({ errors: [e] }, 417)
           end
         end

@@ -39,8 +39,23 @@ module API
 
                 def publish_session_create(payload)
                     @user = payload
-                    RabbitmqService.new('mailer.send_email').handling_publish({record: record_data_user})
+                    MailMailer.mailer(mailer_option('Login', 'New Login', 'login')).deliver_now
+                    # RabbitmqService.new('mailer.send_email').handling_publish({record: record_data_user})
                 end
+
+                def send_code_regist(payload)
+                    @user = payload
+                    MailMailer.mailer(mailer_option('Activation Code', 'Activation Code', 'send_code')).deliver_now
+                    # RabbitmqService.new('mailer.send_email').handling_publish({record: record_data_user})
+                end
+
+                def resend_code_regist(payload)
+                    @user = payload
+                    MailMailer.mailer(mailer_option('Resend Activation Code', 'Resend Activation Code', 'resend_code')).deliver_now
+                    # RabbitmqService.new('mailer.send_email').handling_publish({record: record_data_user})
+                end
+
+                
 
                 def remote_ip
                     request.env['REMOTE_ADDR']
@@ -48,6 +63,15 @@ module API
 
                 def verify_captcha!(response:, error_statuses: [400, 422])
                     geetest(response: response)
+                end
+
+                def mailer_option(subject, title, template)
+                    {
+                        user: @user,
+                        subject: subject,
+                        template: template,
+                        title: title
+                    }
                 end
 
                 def record_data_user

@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  sender = "#{ENV.fetch('SENDER_NAME')} <#{ENV.fetch('EMAIL_FROM')}>"
+  default from: sender
   layout "mailer"
 end
